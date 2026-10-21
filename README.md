@@ -1,63 +1,134 @@
 # AITU Booking
 
-Мобильное приложение для бронирования учебных аудиторий и записи на консультации в Astana IT University с обновлением доступности в реальном времени.
+AITU Booking is a diploma project for Astana IT University. It is a mobile system for booking study rooms and lecturer consultations, with room availability updates in real time.
 
-Дипломный проект, группа SE-2404, 2026–2027.
+Students will select a building and floor, find a room on an interactive map, and choose a time slot. A web administration panel will support schedule management and key tracking.
 
-## Команда
+**Academic year:** 2026–2027  
+**Current stage:** Analysis, requirements, architecture, and interface design
 
-| Участник | Зона ответственности | Папка |
-|---|---|---|
-| Адильбек Арман | iOS-приложение, интерфейс и карта | [`ios/`](ios/) |
-| Максат Сугиров | Бэкенд FastAPI и база данных | [`backend/`](backend/) |
-| Айзат Кыдырхан | Веб-панель администратора | [`admin-web/`](admin-web/) |
+## Problem statement
 
-## Что делает приложение
+Students may need to check schedules and contact staff separately to find an available study room. Consultations may also be arranged through personal messages. These processes make it difficult to see available options in one place and can lead to scheduling conflicts.
 
-- Студент видит свободные аудитории на текущей неделе и бронирует их на окно от 1 до 72 часов вперёд.
-- Студент записывается на консультацию к преподавателю в свободный слот.
-- Преподаватель задаёт время консультаций и видит, кто записан.
-- Сотрудник, отвечающий за ключи, отмечает выдачу ключа под залог ID-карты и возврат.
-- Администратор загружает расписание AITU из PDF (10 недель занятий + 2 недели сессии), и занятые парами аудитории автоматически закрываются для брони.
-- Все клиенты сразу видят изменения: если аудиторию забронировали, она пропадает из списка у остальных.
+The project aims to provide a single system for viewing availability, making reservations, and managing university rooms and consultation slots.
 
-## Архитектура
+## Team
 
+| Team member | Group | Responsibilities |
+| --- | --- | --- |
+| Adilbek Arman | SE-2411 | Mobile development, interactive room map, UI/UX design |
+| Maksat Sugirov | SE-2404 | FastAPI backend and database |
+| Aizat Kydyrkhan | SE-2408 | Web administration panel and UI/UX design |
+
+**Supervisor:** Omirzak Islam Amanzholuly
+
+## Target users
+
+- **Students** find rooms, make and cancel reservations, and book consultations.
+- **Lecturers** manage consultation slots and view student bookings.
+- **Administrators** manage schedules and rooms, review imported data, and track the issue and return of keys.
+
+## Project scope
+
+The initial development stage focuses on room booking through the interactive map, the iOS application, schedule management, and the web administration panel. Consultation booking and the Android application are planned as subsequent stages of the diploma project.
+
+A complete application is not required for the first pre-defense. This stage focuses on research, requirements, comparisons, architecture, interface designs, verification planning, and a traceable record of team contributions.
+
+## Planned functionality
+
+### Room booking
+
+- Select a building and floor, then tap a room on the interactive map.
+- View available time slots and create a reservation without typing the room number.
+- Allow reservations starting between **1 and 72 hours** after the request.
+- Prevent reservations that overlap classes or other confirmed bookings.
+- Allow cancellation of a room reservation before it starts.
+- Update availability when a reservation is created or cancelled.
+
+### Schedule and key management
+
+- Import the class schedule from a PDF file and preview the extracted entries before confirming them.
+- Support the regular schedule for weeks 1–10 and a separate examination schedule for weeks 11–12.
+- Allow administrators to add or correct schedule entries manually.
+- Record key issue and return, including the required signature and university ID-card deposit.
+- Display keys that have not been returned.
+
+### Consultation booking
+
+- Allow lecturers to publish available consultation slots.
+- Allow students to book a free slot.
+- Prevent two students from booking the same slot.
+- Allow a student to cancel at least one hour before the consultation starts.
+
+## Proposed system components
+
+| Component | Proposed technology | Purpose |
+| --- | --- | --- |
+| iOS application | Swift, SwiftUI | Mobile interface and interactive room map for iPhone |
+| Android application | Kotlin, Jetpack Compose, Android SDK | Mobile interface and interactive room map for Android devices |
+| Backend | Python, FastAPI | API, booking rules, schedule processing, and authorization |
+| Database | PostgreSQL | Rooms, schedules, users, consultations, and reservations |
+| Administration panel | Web application | Schedule import, room management, and key tracking |
+| Live updates | WebSocket | Deliver booking and availability changes to connected clients |
+
+These choices are discussed in the technology comparison. The backend and database will enforce booking rules so simultaneous requests cannot confirm overlapping reservations.
+
+## Repository structure
+
+```text
+admin-web/    Web administration panel
+android/      Android application (Kotlin and Jetpack Compose)
+backend/      FastAPI application, database models, migrations, and tests
+ios/          iOS application (Swift and SwiftUI)
+docs/         Research, comparisons, requirements, plans, and feedback
+diagrams/     Editable diagram sources and readable exports
+prototype/    Interface designs or links to design files
+tests/        Test plans and supporting test materials
 ```
-iOS-приложение ──┐
-                 ├── REST (создание и отмена брони) ──► FastAPI ──► PostgreSQL
-Веб-админка  ────┘◄─ WebSocket (события об изменениях) ─┘
-```
 
-- **Бэкенд:** Python, FastAPI, один проект с модулями.
-- **База данных:** PostgreSQL. Пересечения броней запрещены на уровне базы через range types и exclusion constraint.
-- **Обновления в реальном времени:** WebSocket. На старте один процесс API; для нескольких процессов понадобится общий канал событий.
-- **Импорт расписания:** pypdf, с ручной проверкой извлечённых таблиц.
+Each directory will be populated as its corresponding tasks are completed. Configuration examples will use placeholder values; passwords and API keys must not be committed.
 
-Обоснование выбора: [docs/05-technology-choice.md](docs/05-technology-choice.md).
+## Project documentation
 
-## Структура репозитория
+### Research and decisions
 
-```
-backend/      сервер FastAPI, модели БД, миграции, тесты
-ios/          iOS-приложение
-admin-web/    веб-панель администратора
-docs/         аналитика и документация по этапам
-  interviews/ протоколы интервью с пользователями
-```
+1. [Project proposal and scope](docs/01-project-proposal.md)
+2. [Evidence of relevance and user research](docs/02-evidence-of-relevance.md)
+3. [Literature review and publication analysis table](docs/03-literature-review.md)
+4. [Existing systems comparison](docs/04-existing-systems.md)
+5. [Technology comparison](docs/05-technology-choice.md)
 
-## Документация (этап prob-period-1)
+### Requirements and design
 
-1. [Описание проекта](docs/01-project-proposal.md)
-2. [Подтверждение актуальности и интервью](docs/02-evidence-of-relevance.md)
-3. [Обзор литературы](docs/03-literature-review.md)
-4. [Сравнение аналогов](docs/04-existing-systems.md)
-5. [Выбор технологий](docs/05-technology-choice.md)
+6. [Functional and non-functional requirements](docs/06-requirements.md)
+7. [Architecture description](docs/07-architecture.md)
+8. [System Context, Use Case, and Component diagrams](diagrams/)
+9. [UX designs and key user scenarios](docs/08-ux-design.md)
 
-## Как мы работаем
+### Evaluation and management
 
-Правила веток, коммитов и ревью: [CONTRIBUTING.md](CONTRIBUTING.md).
+10. [Verification and evaluation plan](docs/09-evaluation-plan.md)
+11. [Milestones, responsibilities, dependencies, and risks](docs/10-project-plan.md)
+12. [Supervisor feedback and resulting revisions](docs/11-supervisor-feedback.md)
 
-## Лицензия
+The diagrams directory should contain both editable source files and readable exports. The UX document should link to the mobile and administration panel designs.
 
-MIT, см. [LICENSE](LICENSE).
+## Project tracking and contributions
+
+Tasks, owners, deadlines, expected outcomes, and acceptance criteria are tracked in [YouTrack](https://aitu-booking.youtrack.cloud/).
+
+Each completed task should link to the corresponding document, commit, or pull/merge request. Development work is recorded progressively using individual team accounts. Branch, commit, and review conventions are described in [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Project links
+
+- [YouTrack task board](https://aitu-booking.youtrack.cloud/agiles/204-1/current)
+- [Figma design](https://www.figma.com/design/VDu3NBrZE9RSqq8gShbb71/AITU-Booking-%E2%80%94-Pre-defense-prototype?node-id=0-1&p=f&t=ibV3acw12wivs0yX-0)
+
+## First pre-defense submission
+
+The exact submitted version will be marked with the Git tag `pre-defense-1`. The submission will include a summary of completed work, known limitations, and outstanding tasks. Development will continue in the same repository after the pre-defense.
+
+## Setup and testing
+
+Component-specific setup, execution, and testing instructions will be added as runnable code becomes available.
