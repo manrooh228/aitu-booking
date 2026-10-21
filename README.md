@@ -89,6 +89,31 @@ tests/        Test plans and supporting test materials
 
 Each directory will be populated as its corresponding tasks are completed. Configuration examples will use placeholder values; passwords and API keys must not be committed.
 
+## Architecture
+
+The system is designed as a client–server application. The iOS application, the planned Android application, and the web administration panel communicate with a FastAPI backend. PostgreSQL stores users, rooms, schedules, reservations, consultation slots, and key records.
+
+```mermaid
+flowchart LR
+    IOS["iOS app<br/>SwiftUI"] -->|REST API| API["FastAPI backend"]
+    ANDROID["Android app<br/>Jetpack Compose"] -->|REST API| API
+    ADMIN["Admin web panel"] -->|REST API| API
+
+    API --> DB[("PostgreSQL")]
+    ADMIN -->|Upload schedule PDF| API
+    API -.->|Availability events| IOS
+    API -.->|Availability events| ANDROID
+    API -.->|Availability events| ADMIN
+```
+
+The backend is planned as one application with separate modules for authentication, rooms, schedules, reservations, consultations, and key tracking.
+
+A booking request is checked against class schedules and existing reservations. The backend confirms it only if the requested interval is available. Database-level protection is planned to prevent two simultaneous requests from confirming overlapping reservations for the same room.
+
+Administrators will preview extracted schedule entries before confirming an import. Booking changes will be sent to connected clients through WebSocket events so they can refresh room availability.
+
+The detailed [System Context, Use Case, and Component diagrams](diagrams/) and the [architecture description](docs/07-architecture.md) are maintained separately.
+
 ## Project documentation
 
 ### Research and decisions
