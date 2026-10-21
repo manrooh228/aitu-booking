@@ -95,15 +95,15 @@ The system is designed as a client–server application. The iOS application, th
 
 ```mermaid
 flowchart LR
-    IOS["iOS app<br/>SwiftUI"] -->|REST API| API["FastAPI backend"]
-    ANDROID["Android app<br/>Jetpack Compose"] -->|REST API| API
-    ADMIN["Admin web panel"] -->|REST API| API
+    IOS["iOS App"] -->|"REST API"| API["FastAPI Backend"]
+    ANDROID["Android App"] -->|"REST API"| API
+    ADMIN["Admin Web Panel"] -->|"REST API and schedule PDF upload"| API
 
-    API --> DB[("PostgreSQL")]
-    ADMIN -->|Upload schedule PDF| API
-    API -.->|Availability events| IOS
-    API -.->|Availability events| ANDROID
-    API -.->|Availability events| ADMIN
+    API <-->|"Read and write"| DB[("PostgreSQL")]
+
+    API -.->|"WebSocket availability updates"| IOS
+    API -.->|"WebSocket availability updates"| ANDROID
+    API -.->|"WebSocket availability updates"| ADMIN
 ```
 
 The backend is planned as one application with separate modules for authentication, rooms, schedules, reservations, consultations, and key tracking.
