@@ -1,0 +1,23 @@
+@startuml system-context
+!include <C4/C4_Context>
+LAYOUT_TOP_DOWN()
+title AITU Booking — System Context (C4 Level 1)
+
+Person(student, "Student", "Finds and books study rooms on the map, books consultations, picks up keys")
+Person(lecturer, "Lecturer", "Publishes consultation slots, views bookings")
+Person(admin, "Administrator", "Manages rooms, imports schedules, tracks keys")
+
+System(booking, "AITU Booking", "iOS app (Android later), React admin panel and FastAPI backend for real-time room and consultation booking")
+
+System_Ext(mail, "University email (SMTP)", "Verification codes and reminders to @astanait.edu.kz addresses")
+System_Ext(push, "APNs / FCM", "Push notification delivery to iOS and Android")
+System_Ext(pdf, "Official schedule (PDF)", "Class schedule (weeks 1–10) and exam schedule (weeks 11–12) published by the university")
+
+Rel(student, booking, "Books rooms and consultations", "iOS / Android app")
+Rel(lecturer, booking, "Manages consultation slots", "Mobile app")
+Rel(admin, booking, "Manages schedule, rooms, keys", "Web panel")
+
+Rel(booking, mail, "Sends verification codes and reminders", "SMTP")
+Rel(booking, push, "Sends reminders and status changes", "HTTPS")
+Rel_U(pdf, admin, "Downloaded and uploaded by")
+@enduml
