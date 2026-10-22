@@ -6,12 +6,12 @@
 
 | Design | Content | Link |
 |---|---|---|
-| Mobile app — dark design v2 (current) | 10 screens: sign-up, verification, floor maps C1.1 / C1.2 / C1.3, room booking, confirmation, conflict, consultations, profile | Figma, page **«Тёмный дизайн v2»** in [AITU Booking — Pre-defense prototype](https://www.figma.com/design/VDu3NBrZE9RSqq8gShbb71/AITU-Booking-%E2%80%94-Pre-defense-prototype) |
+| Mobile app — dark design v2 (current) | 10 screens: sign-up, verification, floor maps C1.1 / C1.2 / C1.3, room booking, confirmation, conflict, consultations, profile | Figma, page **«Тёмный дизайн v2»**; exported screens in [`ux/screens/`](ux/screens/) and in section 3 below |
 | Admin web panel | Key issue and return, unreturned keys, schedule import and preview | Figma, page **«Page 1»**, frames `keys`, `overdue`, `returned`, `import`, `preview` |
 | Mobile app — first iteration (v1, light) | Wireframe-level screens used to agree on the flows | Figma, page **«Page 1»** |
 | Scenario map | Key scenarios step by step with screens and requirement IDs | Figma, page **«UX — ключевые сценарии»** |
 
-> All screens use demonstration data (capacities, equipment, lecturers, statuses). The interface language is Russian.
+> The Figma file is private to the team, so the screens are exported into this repository. All screens use demonstration data (capacities, equipment, lecturers, statuses). The interface language is Russian.
 
 ## 2. Design decisions
 
@@ -78,15 +78,38 @@ Typeface: **Inter** (Regular, Medium, Semi Bold, Bold). Touch targets are at lea
 | 7 | `7 · Консультации` | Lecturers with free slots (Stage 2) | FR-36, FR-37 |
 | 8 | `8 · Профиль` | My bookings with cancel, key status, consultations, settings, sign-out | FR-03, FR-13, FR-14 |
 
+<table>
+<tr>
+<td align="center"><img src="ux/screens/01-register.png" width="200" alt="Sign-up"><br>1 · Регистрация</td>
+<td align="center"><img src="ux/screens/02-verify-code.png" width="200" alt="Verification code"><br>2 · Код из письма</td>
+<td align="center"><img src="ux/screens/03-map-c1-1.png" width="200" alt="Floor map, block C1.1"><br>3 · Карта — C1.1</td>
+</tr>
+<tr>
+<td align="center"><img src="ux/screens/03b-map-c1-2.png" width="200" alt="Floor map, block C1.2"><br>3b · Карта — C1.2</td>
+<td align="center"><img src="ux/screens/03c-map-c1-3.png" width="200" alt="Floor map, block C1.3"><br>3c · Карта — C1.3</td>
+<td align="center"><img src="ux/screens/04-room-slots.png" width="200" alt="Room and time slots"><br>4 · Аудитория и время</td>
+</tr>
+<tr>
+<td align="center"><img src="ux/screens/05-booking-confirmed.png" width="200" alt="Booking confirmed"><br>5 · Бронь подтверждена</td>
+<td align="center"><img src="ux/screens/06-slot-taken.png" width="200" alt="Slot already taken"><br>6 · Время уже заняли</td>
+<td align="center"><img src="ux/screens/07-consultations.png" width="200" alt="Consultations"><br>7 · Консультации</td>
+</tr>
+<tr>
+<td align="center"><img src="ux/screens/08-profile.png" width="200" alt="Profile"><br>8 · Профиль</td>
+<td></td>
+<td></td>
+</tr>
+</table>
+
 ### 3.2 Admin web panel
 
 | Screen (Figma frame, «Page 1») | Content | Requirements |
 |---|---|---|
-| [`keys`](https://www.figma.com/design/VDu3NBrZE9RSqq8gShbb71/?node-id=5-131) | Find a student and the active booking; issue the key against the ID card | FR-31 |
-| [`overdue`](https://www.figma.com/design/VDu3NBrZE9RSqq8gShbb71/?node-id=5-143) | Unreturned keys at the end of the day | FR-33, FR-34 |
-| [`returned`](https://www.figma.com/design/VDu3NBrZE9RSqq8gShbb71/?node-id=5-153) | Return recorded; saved in the log | FR-32, NFR-13 |
-| [`import`](https://www.figma.com/design/VDu3NBrZE9RSqq8gShbb71/?node-id=5-163) | Schedule type (weeks 1–10 / exams 11–12), validity period, PDF | FR-21, FR-25 |
-| [`preview`](https://www.figma.com/design/VDu3NBrZE9RSqq8gShbb71/?node-id=5-177) | Extracted entries; a conflict blocks publication | FR-22 – FR-24, FR-27 |
+| `keys` | Find a student and the active booking; issue the key against the ID card | FR-31 |
+| `overdue` | Unreturned keys at the end of the day | FR-33, FR-34 |
+| `returned` | Return recorded; saved in the log | FR-32, NFR-13 |
+| `import` | Schedule type (weeks 1–10 / exams 11–12), validity period, PDF | FR-21, FR-25 |
+| `preview` | Extracted entries; a conflict blocks publication | FR-22 – FR-24, FR-27 |
 
 ## 4. Key user scenarios
 
@@ -99,6 +122,13 @@ Typeface: **Inter** (Regular, Medium, Semi Bold, Bold). Touch targets are at lea
 
 **Requirements:** FR-01, NFR-04 · **Use case:** UC-01
 
+<p>
+<img src="ux/screens/01-register.png" width="170" alt="Sign-up">
+<img src="ux/screens/02-verify-code.png" width="170" alt="Verification code">
+<img src="ux/screens/03-map-c1-1.png" width="170" alt="Floor map">
+</p>
+
+
 ### S2. Find a free room on the map and book it *(main scenario)*
 
 | Step | User action | System response | Screen |
@@ -109,6 +139,13 @@ Typeface: **Inter** (Regular, Medium, Semi Bold, Bold). Touch targets are at lea
 
 **Result:** a room is booked in a few taps without typing its number, and the student knows the next step (bring the ID card for the key).
 **Requirements:** FR-04 – FR-11, FR-13, FR-17, BR-01, BR-02, BR-05 · **Use cases:** UC-02 – UC-04
+
+<p>
+<img src="ux/screens/03-map-c1-1.png" width="170" alt="Floor map">
+<img src="ux/screens/04-room-slots.png" width="170" alt="Room and time slots">
+<img src="ux/screens/05-booking-confirmed.png" width="170" alt="Booking confirmed">
+</p>
+
 
 ### S3. Two students book the same slot
 
@@ -121,6 +158,12 @@ Typeface: **Inter** (Regular, Medium, Semi Bold, Bold). Touch targets are at lea
 
 **Requirements:** FR-11, FR-12, NFR-03 · **Use case:** UC-04 · see the [booking sequence diagram](diagrams/export/booking-sequence.png)
 
+<p>
+<img src="ux/screens/04-room-slots.png" width="170" alt="Room and time slots">
+<img src="ux/screens/06-slot-taken.png" width="170" alt="Slot already taken">
+</p>
+
+
 ### S4. Cancel a booking
 
 | Step | User action | System response | Screen |
@@ -129,6 +172,11 @@ Typeface: **Inter** (Regular, Medium, Semi Bold, Bold). Touch targets are at lea
 | 2 | Taps **Отменить бронь** | Booking cancelled; a message confirms that the time is available again; the map updates for everyone | 8 |
 
 **Requirements:** FR-13, FR-14, FR-17, BR-03 · **Use case:** UC-05
+
+<p>
+<img src="ux/screens/08-profile.png" width="170" alt="Profile">
+</p>
+
 
 ### S5. Administrator issues and receives a key *(admin panel)*
 
@@ -148,6 +196,12 @@ Choose the schedule type (weeks 1–10 or exams 11–12), the validity period an
 | 2 | Taps a slot, optionally enters a topic, taps **Записаться** | "Вы записаны"; the booking appears in the profile; cancellation allowed until 1 hour before the start | 7 → 8 |
 
 **Requirements:** FR-36 – FR-39, BR-04 · **Use case:** UC-14
+
+<p>
+<img src="ux/screens/07-consultations.png" width="170" alt="Consultations">
+<img src="ux/screens/08-profile.png" width="170" alt="Profile">
+</p>
+
 
 ## 5. Traceability
 
