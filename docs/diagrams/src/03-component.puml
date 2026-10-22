@@ -1,0 +1,54 @@
+@startuml component
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+title AITU Booking — Component Diagram (C4 Level 3: Backend)
+
+Container(ios, "iOS App", "Swift, SwiftUI", "Map, room card, bookings, consultations")
+Container(android, "Android App", "Kotlin, Jetpack Compose", "Stage 2")
+Container(web, "Admin Web Panel", "React", "Schedule import, rooms, key log")
+
+Container_Boundary(api, "FastAPI Backend") {
+  Component(gw, "API Router", "FastAPI, Pydantic", "REST /api/v1, validation, errors")
+  Component(auth, "Auth module", "Email code + JWT", "University email check, one-time codes, password hashes, tokens, roles (RBAC)")
+  Component(rooms, "Rooms module", "Python", "Buildings, floors, rooms, map areas, blocks")
+  Component(res, "Reservations module", "Python", "1–72 h rule, overlap check, create / cancel, limits")
+  Component(sched, "Schedule module", "Python, pypdf", "PDF parsing, preview, weeks 1–10 / 11–12, manual edits")
+  Component(cons, "Consultations module", "Python", "Slots, bookings, 1 h cancel rule (Stage 2)")
+  Component(keys, "Keys module", "Python", "Issue / return, ID-card deposit, overdue keys")
+  Component(rt, "Realtime hub", "FastAPI WebSocket", "Per-building channels, availability events")
+  Component(notif, "Notifications", "Background worker", "Reminders, cancellation notices")
+}
+
+ContainerDb(db, "PostgreSQL", "PostgreSQL 16", "Users, rooms, schedule, reservations (EXCLUDE constraint), slots, key log, audit log")
+System_Ext(idp, "Email service (SMTP)")
+System_Ext(push, "APNs")
+
+Rel(ios, gw, "REST", "HTTPS/JSON")
+Rel(android, gw, "REST", "HTTPS/JSON")
+Rel(web, gw, "REST + PDF upload", "HTTPS")
+Rel_R(rt, ios, "Availability events", "WSS")
+
+Rel(gw, auth, "Authorizes each request")
+Rel(gw, rooms, "Routes")
+Rel(gw, res, "Routes")
+Rel(gw, sched, "Routes")
+Rel(gw, cons, "Routes")
+Rel(gw, keys, "Routes")
+
+Rel(res, sched, "Checks classes / exams")
+Rel(res, rooms, "Checks blocks")
+Rel(res, rt, "Publishes booking events")
+Rel(cons, rt, "Publishes slot events")
+Rel(res, notif, "Schedules reminders")
+
+Rel(rooms, db, "SQLAlchemy")
+Rel(res, db, "SQLAlchemy, transaction")
+Rel(sched, db, "SQLAlchemy")
+Rel(cons, db, "SQLAlchemy")
+Rel(keys, db, "SQLAlchemy")
+
+Rel(auth, idp, "Verification codes", "SMTP")
+Rel(notif, idp, "Email reminders", "SMTP")
+Rel(notif, push, "HTTPS")
+
+@enduml
