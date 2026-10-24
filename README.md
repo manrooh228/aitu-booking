@@ -144,7 +144,7 @@ The [diagrams directory](docs/diagrams/) contains both editable PlantUML sources
 
 Tasks, owners, deadlines, expected outcomes, and acceptance criteria are tracked in [YouTrack](https://aitu-booking.youtrack.cloud/).
 
-Each completed task should link to the corresponding document, commit, or pull/merge request. Development work is recorded progressively using individual team accounts. Branch, commit, and review conventions are described in [CONTRIBUTING.md](CONTRIBUTING.md).
+Each completed task should link to the corresponding document, commit, or pull/merge request. Development work is recorded progressively using individual team accounts. And will be shown in a document with submission.
 
 ## Project links
 
