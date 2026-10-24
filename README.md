@@ -81,8 +81,9 @@ admin-web/    Web administration panel
 android/      Android application (Kotlin and Jetpack Compose)
 backend/      FastAPI application, database models, migrations, and tests
 ios/          iOS application (Swift and SwiftUI)
-docs/         Research, comparisons, requirements, plans, and feedback
-diagrams/     Editable diagram sources and readable exports
+docs/         Research, comparisons, requirements, architecture, UX designs, plans, and feedback
+  diagrams/   Editable diagram sources and readable exports
+  ux/         Exported interface screens
 prototype/    Interface designs or links to design files
 tests/        Test plans and supporting test materials
 ```
@@ -112,32 +113,32 @@ A booking request is checked against class schedules and existing reservations. 
 
 Administrators will preview extracted schedule entries before confirming an import. Booking changes will be sent to connected clients through WebSocket events so they can refresh room availability.
 
-The detailed [System Context, Use Case, and Component diagrams](diagrams/) and the [architecture description](docs/07-architecture.md) are maintained separately.
+The detailed [System Context, Use Case, and Component diagrams](docs/diagrams/) and the [architecture description](docs/07-architecture.md) are maintained separately.
 
 ## Project documentation
 
 ### Research and decisions
 
-1. [Project proposal and scope](.github/01-project-proposal.md)
-2. [Evidence of relevance and user research](.github/02-evidence-of-relevance.md)
-3. [Literature review and publication analysis table](.github/03-literature-review.md)
-4. [Existing systems comparison](.github/04-existing-systems.md)
-5. [Technology comparison](.github/05-technology-choice.md)
+1. [Project proposal and scope](docs/01-project-proposal.md)
+2. [Evidence of relevance and user research](docs/02-evidence-of-relevance.md)
+3. [Literature review and publication analysis table](docs/03-literature-review.md)
+4. [Existing systems comparison](docs/04-existing-systems.md)
+5. [Technology comparison](docs/05-technology-choice.md)
 
 ### Requirements and design
 
-6. [Functional and non-functional requirements](.github/06-requirements.md)
-7. [Architecture description](.github/07-architecture.md)
-8. [System Context, Use Case, and Component diagrams](diagrams/)
-9. [UX designs and key user scenarios](.github/08-ux-design.md)
+6. [Functional and non-functional requirements](docs/06-requirements.md)
+7. [Architecture description](docs/07-architecture.md)
+8. [System Context, Use Case, and Component diagrams](docs/diagrams/)
+9. [UX designs and key user scenarios](docs/08-ux-design.md)
 
 ### Evaluation and management
 
-10. [Verification and evaluation plan](.github/09-evaluation-plan.md)
-11. [Milestones, responsibilities, dependencies, and risks](.github/10-project-plan.md)
-12. [Supervisor feedback and resulting revisions](.github/11-supervisor-feedback.md)
+10. [Verification and evaluation plan](docs/09-evaluation-plan.md)
+11. [Milestones, responsibilities, dependencies, and risks](docs/10-project-plan.md)
+12. [Supervisor feedback and resulting revisions](docs/11-supervisor-feedback.md)
 
-The diagrams directory should contain both editable source files and readable exports. The UX document should link to the mobile and administration panel designs.
+The [diagrams directory](docs/diagrams/) contains both editable PlantUML sources and readable PNG/SVG exports. The [UX document](docs/08-ux-design.md) includes the exported mobile screens from [docs/ux/screens/](docs/ux/screens/).
 
 ## Project tracking and contributions
 

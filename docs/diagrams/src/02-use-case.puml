@@ -1,0 +1,76 @@
+@startuml use-case
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #F5F8FF
+  BorderColor #3A5BA0
+}
+skinparam rectangle {
+  BorderColor #3A5BA0
+}
+title AITU Booking — Use Case Diagram
+
+actor Student
+actor Lecturer
+actor Administrator as Admin
+
+rectangle "AITU Booking" {
+  usecase "UC-01 Register / sign in\nwith university email" as UC01
+
+  package "Room booking (Stage 1)" {
+    usecase "UC-02 Browse building\nand floor map" as UC02
+    usecase "UC-03 View room card\nand time slots" as UC03
+    usecase "UC-04 Book a room" as UC04
+    usecase "Check availability\n(1–72 h, no overlap)" as CHK
+    usecase "UC-05 Cancel room\nreservation" as UC05
+    usecase "UC-07 View my\nreservations" as UC07
+    usecase "UC-06 Receive reminders\nand notifications" as UC06
+  }
+
+  package "Consultations (Stage 2)" {
+    usecase "UC-13 Publish\nconsultation slots" as UC13
+    usecase "UC-14 Book\nconsultation" as UC14
+    usecase "UC-15 Cancel consultation\n(≥ 1 h before)" as UC15
+    usecase "UC-16 View consultation\nbookings" as UC16
+  }
+
+  package "Administration (Stage 1)" {
+    usecase "UC-08 Import schedule\nfrom PDF" as UC08
+    usecase "Preview and confirm\nentries" as PREV
+    usecase "UC-09 Edit schedule\nmanually" as UC09
+    usecase "UC-10 Manage rooms\nand blocks" as UC10
+    usecase "UC-11 Issue key\n(signature + ID card)" as UC11
+    usecase "UC-12 Record key return /\nunreturned keys" as UC12
+  }
+}
+
+actor "Email service" as IdP <<external>>
+actor "Push service\n(APNs / FCM)" as Push <<external>>
+
+Student --> UC01
+Student --> UC02
+Student --> UC05
+Student --> UC07
+Student --> UC14
+Student --> UC15
+UC03 .> UC02 : <<extend>>
+UC04 .> UC03 : <<extend>>
+UC04 ..> CHK : <<include>>
+UC14 ..> CHK : <<include>>
+
+Lecturer --> UC01
+Lecturer --> UC13
+Lecturer --> UC16
+
+Admin --> UC01
+Admin --> UC08
+Admin --> UC09
+Admin --> UC10
+Admin --> UC11
+Admin --> UC12
+UC08 ..> PREV : <<include>>
+
+UC01 --> IdP
+UC06 --> Push
+@enduml

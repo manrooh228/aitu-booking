@@ -1,0 +1,31 @@
+@startuml booking-sequence
+skinparam shadowing false
+autonumber
+title Book a room — two students request the same slot at the same time
+
+actor "Student A" as A
+actor "Student B" as B
+participant "iOS App" as App
+participant "FastAPI\nReservations" as API
+database "PostgreSQL" as DB
+participant "Realtime hub" as RT
+
+par
+  A -> App : tap room → choose slot → Confirm
+  App -> API : POST /reservations (A)
+  API -> API : check role, 1–72 h window,\nactive-reservation limit
+  API -> DB : TX-A: check classes / exams / blocks;\nINSERT reservation
+else
+  B -> App : same room, overlapping time → Confirm
+  App -> API : POST /reservations (B)
+  API -> DB : TX-B: INSERT reservation
+end
+
+DB --> API : TX-A COMMIT OK
+API --> App : 201 Created (A)
+DB --> API : TX-B ERROR exclusion_violation\n(EXCLUDE USING gist: room_id =, tstzrange &&)
+API --> App : 409 Conflict "Slot already taken" (B)
+
+API -> RT : room.updated {room, interval, status=busy}
+RT --> App : event to every client on this building → map refreshes
+@enduml
